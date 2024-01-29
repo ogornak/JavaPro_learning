@@ -1,4 +1,6 @@
-import annotation.*;
+package ru.stepup.task1;
+
+import ru.stepup.task1.annotation.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -73,7 +75,7 @@ public class TestRunner {
         for (var type : types) {
             var cc = Class.forName(type.getTypeName().replace("int", "java.lang.Integer")
                     .replace("boolean", "java.lang.Boolean"));
-            var parameter = cc.getConstructor(String.class).newInstance(strings[i]);
+            var parameter = cc.getConstructor(String.class).newInstance(strings[i].trim());
             objs[i++] = parameter;
         }
         return objs;

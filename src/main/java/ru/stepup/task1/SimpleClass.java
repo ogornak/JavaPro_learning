@@ -1,4 +1,6 @@
-import annotation.*;
+package ru.stepup.task1;
+
+import ru.stepup.task1.annotation.*;
 
 public class SimpleClass {
     @Test
