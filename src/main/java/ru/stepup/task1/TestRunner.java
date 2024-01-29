@@ -66,7 +66,7 @@ public class TestRunner {
 
     private static Object[] parseCsv(Method method) throws Exception {
         int i = 0;
-        var strings = method.getAnnotation(CsvSource.class).value().split(",");
+        var strings = method.getAnnotation(CsvSource.class).value().split(", ");
         var types = method.getGenericParameterTypes();
         if (strings.length != types.length) {
             throw new IllegalArgumentException("The number of parameters differs from the method parameters!");
@@ -75,7 +75,7 @@ public class TestRunner {
         for (var type : types) {
             var cc = Class.forName(type.getTypeName().replace("int", "java.lang.Integer")
                     .replace("boolean", "java.lang.Boolean"));
-            var parameter = cc.getConstructor(String.class).newInstance(strings[i].trim());
+            var parameter = cc.getConstructor(String.class).newInstance(strings[i]);
             objs[i++] = parameter;
         }
         return objs;
