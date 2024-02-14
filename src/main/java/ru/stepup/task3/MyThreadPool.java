@@ -2,11 +2,11 @@ package ru.stepup.task3;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.concurrent.*;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyThreadPool {
-    private final BlockingQueue<Runnable> workQueue;
+    private final Queue<Runnable> workQueue;
     private Deque<Runnable> waitingQueue;
     private boolean isShutdown;
     private final int poolSize;
@@ -15,7 +15,7 @@ public class MyThreadPool {
     public MyThreadPool(int poolSize) {
         this.poolSize = poolSize;
         workingThreadsCount = new AtomicInteger();
-        this.workQueue = new LinkedBlockingQueue<>(poolSize);
+        this.workQueue = new LinkedList<>();
         this.waitingQueue = new LinkedList<>();
         for (int i = 0; i < poolSize; i++) {
             new Thread(this::run).start();
@@ -25,7 +25,14 @@ public class MyThreadPool {
     private void run() {
         while (!isShutdown) {
             try {
-                Runnable runnable = workQueue.take();
+                Thread.sleep(100);
+                Runnable runnable;
+                synchronized (this) {
+                    runnable = workQueue.poll();
+                }
+                if (runnable == null) {
+                    continue;
+                }
                 workingThreadsCount.incrementAndGet();
                 runnable.run();
                 workingThreadsCount.decrementAndGet();
