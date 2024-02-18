@@ -1,0 +1,5 @@
+hikari:
+  url: jdbc:postgresql://localhost:5432/adm
+  username: adm
+  password: adm
+  pool-size: 2
